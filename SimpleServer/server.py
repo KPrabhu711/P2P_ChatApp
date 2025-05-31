@@ -1,12 +1,12 @@
 import socket
 import threading
 
-sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)    #make a socket;AF.INET speciies IPv4 and SOCK_STREAM for TCP
 sock.bind(('0.0.0.0', 10000))
-sock.listen(5)
+sock.listen(5)  #specify how many connection requests can wait in queue
 
 connections = []
-lock = threading.Lock()
+lock = threading.Lock() #obtain lock to be used on the global variable connections
 
 def handler(c, a):
     global connections
@@ -37,5 +37,5 @@ while True:
     print(f"Connected: {addr}, Active Connections: {len(connections)}")
 
     cThread = threading.Thread(target=handler, args=(conn, addr))
-    cThread.daemon = True
-    cThread.start()
+    cThread.daemon = True           #Automatically close when main program closes
+    cThread.start()                 #Starts the thread
